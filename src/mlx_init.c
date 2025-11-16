@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_init.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-11-16 12:21:01 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 12:21:01 by sguruge          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 void	get_wall_img(t_core *cub);
@@ -16,7 +28,6 @@ void	get_wall_img(t_core *cub)
 	int		n;
 
 	n = 64;
-	// error handle
 	path = cub->graphic.wall[NO].path;
 	cub->graphic.wall[NO].ptr = mlx_xpm_file_to_image(cub->mlx.p, path, &n, &n);
 	path = cub->graphic.wall[SO].path;

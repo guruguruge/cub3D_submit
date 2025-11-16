@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trig_table.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-11-16 12:21:53 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 12:21:53 by sguruge          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 void	init_atan_table(t_core *cub)
@@ -22,12 +34,12 @@ double	fast_atan2(double y, double x, t_core cub)
 	int		idx;
 
 	if (x < 1e-9)
-    {
-        if(y > 0)
-            return(PI / 2);
-        else if(y < 0)
-            return(-1 * PI / 2);
-    }
+	{
+		if (y > 0)
+			return (PI / 2);
+		else if (y < 0)
+			return (-1 * PI / 2);
+	}
 	else
 		ratio = fabs(y / x);
 	idx = (int)(ratio * 1000);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-11-16 12:21:31 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 12:21:31 by sguruge          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 bool	is_emptyline(char *str);
@@ -55,8 +67,6 @@ char	*parse_duplicate(char *raw_content)
 		i++;
 	}
 	res[i] = '\0';
-	// printf("%s : ", raw_content);
-	// printf("%s \n", res);
 	return (res);
 }
 

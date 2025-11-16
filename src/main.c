@@ -29,6 +29,9 @@ void	error_print(char *message, int type, t_core *cub)
 	(void)cub;
 	write(2, "Error\n", 6);
 	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
+	if (cub->raw_input)
+		free_args(cub->raw_input);
 	if (cub)
 		free_all(cub);
 	exit(type);
@@ -38,7 +41,7 @@ int	main(int argc, char **argv)
 {
 	t_core	*cub;
 
-	cub = malloc(sizeof(t_core));
+	cub = ft_calloc(1, sizeof(t_core));
 	if (!cub)
 		error_print("malloc fail", MALLOC_ERROR, cub);
 	check_args(argc, argv, cub);

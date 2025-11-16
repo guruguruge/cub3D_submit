@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-11-16 00:00:00 by sguruge           #+#    #+#             */
-/*   Updated: 2025-11-16 00:00:00 by sguruge          ###   ########.fr       */
+/*   Created: 2025-11-16 12:21:25 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 12:21:25 by sguruge          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	take_off_newline(char *map_line)
 {
-	int	len;
+	size_t	len;
 
 	len = ft_strlen(map_line);
 	if (map_line[len - 1] == '\n')
@@ -31,12 +31,6 @@ void	parse_map(t_core *cub, char *map_line)
 			return ;
 		else
 			error_print("Invalid map structure", CONTENT_ERROR, cub);
-	}
-	if (cub->map.size.y >= cub->raw_col_size)
-	{
-		if (cub->map.grid)
-			free_args_fail(cub->map.grid, cub->map.size.y);
-		error_print("Map too large", CONTENT_ERROR, cub);
 	}
 	cub->map.grid[cub->map.size.y] = ft_strdup(map_line);
 	if (!cub->map.grid[cub->map.size.y])

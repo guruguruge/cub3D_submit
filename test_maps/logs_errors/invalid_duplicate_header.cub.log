@@ -1,2 +1,3 @@
 Error
-Duplicate identifierPASS (exit 253) -- expected err
+Duplicate identifiertimeout: the monitored command dumped core
+PASS (exit 139) -- expected err

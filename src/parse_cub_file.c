@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-11-16 00:00:00 by sguruge           #+#    #+#             */
-/*   Updated: 2025-11-16 00:00:00 by sguruge          ###   ########.fr       */
+/*   Created: 2025-11-16 12:21:15 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 12:21:15 by sguruge          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ t_parse_state	which_component(char *prefix)
 		return (MAP);
 }
 
-
 void	init_component_struct(t_core *cub)
 {
-	cub->graphic.surface = malloc(2 * sizeof(t_surface));
-	cub->graphic.wall = malloc(4 * sizeof(t_wall));
-	cub->map.grid = malloc((cub->raw_col_size) * sizeof(char *));
+	cub->graphic.surface = ft_calloc(2, sizeof(t_surface));
+	cub->graphic.wall = ft_calloc(4, sizeof(t_wall));
+	cub->map.grid = ft_calloc((size_t)cub->raw_col_size, sizeof(char *));
 	cub->map.size.x = 0;
 	cub->map.size.y = 0;
 	cub->map.grid[0] = NULL;
@@ -49,7 +48,8 @@ void	init_component_struct(t_core *cub)
 
 void	get_raw_content(t_core *cub)
 {
-	int	i;
+	int		i;
+	char	*tmp_gnl;
 
 	cub->raw_input = malloc((cub->raw_col_size + 1) * sizeof(char *));
 	if (!cub->raw_input)
@@ -66,6 +66,9 @@ void	get_raw_content(t_core *cub)
 		i++;
 	}
 	cub->raw_input[i] = NULL;
+	tmp_gnl = get_next_line(cub->map.fd);
+	if (tmp_gnl != NULL)
+		free(tmp_gnl);
 	close(cub->map.fd);
 }
 
@@ -79,12 +82,10 @@ void	check_file_content(t_core *cub)
 	while (cub->raw_input[i])
 	{
 		if (cub->parse_state != MAP && is_emptyline(cub->raw_input[i]))
-		{
 			i++;
-		}
 		else
 		{
-			line_prefix = parse_duplicate(skip_space(cub->raw_input[i]));
+			line_prefix = skip_space(cub->raw_input[i]);
 			if (cub->parse_state != MAP)
 				cub->parse_state = which_component(line_prefix);
 			if (cub->parse_state != MAP)
@@ -93,7 +94,6 @@ void	check_file_content(t_core *cub)
 				error_print("Invalid Content", CONTENT_ERROR, cub);
 			else
 				parse_map(cub, cub->raw_input[i]);
-			free(line_prefix);
 			i++;
 		}
 	}
@@ -109,4 +109,5 @@ void	parse_cub_file(t_core *cub, char *input)
 	check_texturefile_sanity(cub);
 	check_mapcontent_sanity(cub);
 	check_mapstructure_sanity(cub);
+	free_args(cub->raw_input);
 }
