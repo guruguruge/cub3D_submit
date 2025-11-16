@@ -1,0 +1,11 @@
+NO ./texture/solid_blue.xpm
+SO ./texture/solid_green.xpm
+WE ./texture/solid_yellow.xpm
+
+C 225,30,0
+F 220,100,0
+111111
+100001
+100N01
+100001
+111111

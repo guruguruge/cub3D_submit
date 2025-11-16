@@ -1,0 +1,10 @@
+NO ./texture/solid_blue.xpm
+SO ./texture/solid_green.xpm
+WE ./texture/solid_yellow.xpm
+EA ./texture/sky.xpm
+C 256,30,0
+F -1,100,abc
+111111
+1000N1
+100001
+111111

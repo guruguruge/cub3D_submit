@@ -1,0 +1,112 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cub_file.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sguruge <sguruge@student.42tokyo.jp>       #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-11-16 00:00:00 by sguruge           #+#    #+#             */
+/*   Updated: 2025-11-16 00:00:00 by sguruge          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/cub3d.h"
+
+t_parse_state	which_component(char *prefix)
+{
+	if (ft_strncmp(prefix, "NO", 2) == 0)
+		return (NO);
+	if (ft_strncmp(prefix, "SO", 2) == 0)
+		return (SO);
+	if (ft_strncmp(prefix, "WE", 2) == 0)
+		return (WE);
+	if (ft_strncmp(prefix, "EA", 2) == 0)
+		return (EA);
+	if (ft_strncmp(prefix, "F", 1) == 0)
+		return (FLR);
+	if (ft_strncmp(prefix, "C", 1) == 0)
+		return (CEL);
+	else
+		return (MAP);
+}
+
+
+void	init_component_struct(t_core *cub)
+{
+	cub->graphic.surface = malloc(2 * sizeof(t_surface));
+	cub->graphic.wall = malloc(4 * sizeof(t_wall));
+	cub->map.grid = malloc((cub->raw_col_size) * sizeof(char *));
+	cub->map.size.x = 0;
+	cub->map.size.y = 0;
+	cub->map.grid[0] = NULL;
+	cub->parse_checker[NO] = false;
+	cub->parse_checker[SO] = false;
+	cub->parse_checker[WE] = false;
+	cub->parse_checker[EA] = false;
+	cub->parse_checker[FLR] = false;
+	cub->parse_checker[CEL] = false;
+}
+
+void	get_raw_content(t_core *cub)
+{
+	int	i;
+
+	cub->raw_input = malloc((cub->raw_col_size + 1) * sizeof(char *));
+	if (!cub->raw_input)
+		error_print("malloc fail", MALLOC_ERROR, cub);
+	i = 0;
+	while (i < cub->raw_col_size)
+	{
+		cub->raw_input[i] = get_next_line(cub->map.fd);
+		if (!cub->raw_input[i])
+		{
+			free_args_fail(cub->raw_input, i);
+			error_print("malloc fail", MALLOC_ERROR, cub);
+		}
+		i++;
+	}
+	cub->raw_input[i] = NULL;
+	close(cub->map.fd);
+}
+
+void	check_file_content(t_core *cub)
+{
+	int		i;
+	char	*line_prefix;
+
+	i = 0;
+	cub->parse_state = INIT;
+	while (cub->raw_input[i])
+	{
+		if (cub->parse_state != MAP && is_emptyline(cub->raw_input[i]))
+		{
+			i++;
+		}
+		else
+		{
+			line_prefix = parse_duplicate(skip_space(cub->raw_input[i]));
+			if (cub->parse_state != MAP)
+				cub->parse_state = which_component(line_prefix);
+			if (cub->parse_state != MAP)
+				parse_component(cub, skip_space(cub->raw_input[i]));
+			else if (!check_content_fulfill(cub->parse_checker))
+				error_print("Invalid Content", CONTENT_ERROR, cub);
+			else
+				parse_map(cub, cub->raw_input[i]);
+			free(line_prefix);
+			i++;
+		}
+	}
+	cub->map.grid[cub->map.size.y] = NULL;
+}
+
+void	parse_cub_file(t_core *cub, char *input)
+{
+	cub->map.fd = open(input, O_RDONLY);
+	get_raw_content(cub);
+	init_component_struct(cub);
+	check_file_content(cub);
+	check_texturefile_sanity(cub);
+	check_mapcontent_sanity(cub);
+	check_mapstructure_sanity(cub);
+}
