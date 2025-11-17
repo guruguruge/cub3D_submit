@@ -1,2 +1,3 @@
 Error
-Map not enclosedPASS (exit 251) -- expected err
+Map not enclosed
+PASS (exit 251) -- expected err

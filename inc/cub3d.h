@@ -222,8 +222,6 @@ void				check_mapstructure_sanity(t_core *cub);
 
 char				**create_padded_map_copy(t_core *cub, t_point map_size,
 						t_point *tmp_size);
-void				check_map_enclosed(t_core *cub, char **tmp,
-						t_point map_size, t_point tmp_size);
 int					in_targets(char c, char *targets);
 void				fill(char **tab, t_point size, t_point cur, char *targets);
 

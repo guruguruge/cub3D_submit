@@ -84,21 +84,50 @@ char	**create_padded_map_copy(t_core *cub, t_point map_size,
 	return (tmp);
 }
 
-void	check_map_enclosed(t_core *cub, char **tmp, t_point map_size,
-		t_point tmp_size)
+static bool	is_surrounded_by_walls(char **grid, int max_y, int max_x, int y,
+		int x)
 {
-	t_point	size;
-	t_point	start;
+	int		len_up;
+	int		len_down;
+	char	up_char;
+	char	down_char;
+
+	/* 上下チェック（存在チェック） */
+	if (y <= 0 || y >= max_y - 1)
+		return (false);
+	/* 左右チェック */
+	if (x <= 0 || x >= max_x - 1)
+		return (false);
+	/* 上の行が存在し、その行の長さが x より大きいか確認 */
+	len_up = (int)ft_strlen(grid[y - 1]);
+	/* x が行の長さを超えていたら、その位置は ' '（パディング）扱い */
+	up_char = (x >= len_up) ? ' ' : grid[y - 1][x];
+	if (up_char == ' ')
+		return (false);
+	/* 下の行が存在し、その行の長さが x より大きいか確認 */
+	len_down = (int)ft_strlen(grid[y + 1]);
+	down_char = (x >= len_down) ? ' ' : grid[y + 1][x];
+	if (down_char == ' ')
+		return (false);
+	/* 左右チェック */
+	if (grid[y][x - 1] == ' ' || grid[y][x + 1] == ' ')
+		return (false);
+	return (true);
+}
+
+void	check_mapstructure_sanity(t_core *cub)
+{
+	t_point	map_size;
 	int		y;
 	int		x;
 	int		len;
 	char	orig;
 
-	size.x = tmp_size.x;
-	size.y = tmp_size.y;
-	start.x = 0;
-	start.y = 0;
-	fill(tmp, size, start, " 0NSEW");
+	map_size.x = cub->map.size.x;
+	map_size.y = cub->map.size.y;
+	if (map_size.x <= 0 || map_size.y <= 0)
+		error_print("Invalid map structure", MAP_CONTENT_ERROR, cub);
+	/* 四方向チェック：各 '0' / プレイヤー文字の上下左右が壁で保護されているか */
 	y = 0;
 	while (y < map_size.y)
 	{
@@ -107,16 +136,12 @@ void	check_map_enclosed(t_core *cub, char **tmp, t_point map_size,
 		while (x < len && x < map_size.x)
 		{
 			orig = cub->map.grid[y][x];
-			if ((orig == '0' || orig == 'N' || orig == 'S' || orig == 'E'
-					|| orig == 'W') && tmp[y + 1][x + 1] == 'F')
+			if (orig == '0' || orig == 'N' || orig == 'S' || orig == 'E'
+				|| orig == 'W')
 			{
-				free_args_fail(tmp, tmp_size.y);
-				error_print("Map not enclosed", MAP_CONTENT_ERROR, cub);
-			}
-			if (orig == ' ' && tmp[y + 1][x + 1] != 'F')
-			{
-				free_args_fail(tmp, tmp_size.y);
-				error_print("Map not enclosed", MAP_CONTENT_ERROR, cub);
+				if (!is_surrounded_by_walls(cub->map.grid, map_size.y,
+						map_size.x, y, x))
+					error_print("Map not enclosed", MAP_CONTENT_ERROR, cub);
 			}
 			x++;
 		}

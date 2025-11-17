@@ -1,2 +1,3 @@
 Error
-Cannot open texture filePASS (exit 252) -- expected err
+Cannot open texture file
+PASS (exit 252) -- expected err

@@ -1,2 +1,3 @@
 Error
-Invalid ContentPASS (exit 253) -- expected err
+Invalid Content
+PASS (exit 253) -- expected err

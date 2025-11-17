@@ -1,2 +1,3 @@
 Error
-Invalid map structurePASS (exit 253) -- expected err
+Invalid map structure
+PASS (exit 253) -- expected err

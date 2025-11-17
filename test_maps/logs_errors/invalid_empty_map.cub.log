@@ -1,2 +1,3 @@
 Error
-Invalid map contentPASS (exit 251) -- expected err
+Invalid map content
+PASS (exit 251) -- expected err

@@ -1,2 +1,3 @@
 Error
-Invalid character in mapPASS (exit 251) -- expected err
+Invalid character in map
+PASS (exit 251) -- expected err
