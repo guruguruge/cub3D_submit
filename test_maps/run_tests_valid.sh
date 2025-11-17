@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Run INVALID map tests only: builds, finds executable, runs invalid maps, expects non-zero exit
+# Run VALID map tests only: builds, finds executable, runs valid maps, expects exit 0
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 MAP_DIR="$BASE_DIR/map"
-LOG_DIR="$BASE_DIR/test_maps/logs_errors"
+LOG_DIR="$BASE_DIR/test_maps/logs_valid"
 mkdir -p "$LOG_DIR"
 
 # Build if Makefile present
@@ -27,24 +27,19 @@ if [ -z "$EXE" ]; then
 fi
 echo "Using executable: $EXE"
 
-# INVALID maps only
+# VALID maps only
 maps=(
-  "map/invalid_open_wall.cub"
-  "map/invalid_multiple_players.cub"
-  "map/invalid_invalid_char.cub"
-  "map/invalid_not_rectangular.cub"
-  "map/invalid_missing_header.cub"
-  "map/invalid_no_player.cub"
-  "map/invalid_missing_texture.cub"
-  "map/invalid_texture_extra_token.cub"
-  "map/invalid_color_bad_value.cub"
-  "map/invalid_duplicate_header.cub"
-  "map/invalid_header_after_map.cub"
-  "map/invalid_space_in_map.cub"
-  "map/invalid_tab_in_map.cub"
-  "map/invalid_trailing_space_line.cub"
-  "map/invalid_empty_map.cub"
-  "map/invalid_player_on_border.cub"
+  "map/valid_simple.cub"
+  "map/valid_room.cub"
+  "map/valid_donut.cub"
+  "map/valid_header_mix.cub"
+  "map/valid_header_newline_split.cub"
+  "map/valid_tight_enclosed.cub"
+  "map/valid_L_shaped.cub"
+  "map/valid_narrow_corridor.cub"
+  "map/valid_mixed_sizes.cub"
+  "map/valid_border_tight.cub"
+  "map/valid_max_dense.cub"
 )
 
 pass=0
@@ -54,7 +49,7 @@ timeout_cmd="timeout 5s"
 for mapfile in "${maps[@]}"; do
   fullmap="$BASE_DIR/$mapfile"
   logfile="$LOG_DIR/$(basename "$mapfile").log"
-  printf "\n=== %s (expect: ERR non-zero) ===\n" "$mapfile"
+  printf "\n=== %s (expect: OK exit 0) ===\n" "$mapfile"
   if [ ! -f "$fullmap" ]; then
     echo "MAP NOT FOUND: $fullmap" | tee "$logfile"
     ((fail++)); continue
@@ -62,12 +57,12 @@ for mapfile in "${maps[@]}"; do
   # run with timeout, capture stdout+stderr
   $timeout_cmd "$EXE" "$fullmap" > "$logfile" 2>&1
   rc=$?
-  # For invalid maps, we expect non-zero exit
-  if [ "$rc" -ne 0 ]; then
-    echo "PASS (exit $rc) -- expected err" | tee -a "$logfile"
+  # For valid maps, we expect exit 0
+  if [ "$rc" -eq 0 ]; then
+    echo "PASS (exit 0)" | tee -a "$logfile"
     ((pass++))
   else
-    echo "FAIL (exit 0) -- expected err" | tee -a "$logfile"
+    echo "FAIL (exit $rc) -- expected ok" | tee -a "$logfile"
     ((fail++))
   fi
 done
