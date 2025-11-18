@@ -101,32 +101,6 @@ Test logs are saved to:
 - Arrow keys for rotation (90° per step)
 - Real-time camera updates
 
-## Architecture
-
-### File Organization (≤5 functions per file)
-
-**Parser files:**
-- `parse_cub_file.c` (5 functions) - Main parser orchestration
-- `parse_component.c` (5 functions) - Header component parsing
-- `parse_surface.c` (4 functions) - RGB color parsing
-- `parse_map.c` (2 functions) - Map line parsing
-- `map_validation.c` (4 functions) - Map structure validation
-- `map_checker.c` (3 functions) - Map content validation
-
-**Rendering files:**
-- `mlx_main_loop.c` - Main rendering loop with FPS control
-- `raycast.c` - Raycasting algorithm
-- `frame.c` - Frame buffer management
-- `mlx_init.c` - MinilibX initialization
-
-**Utility files:**
-- `parse_utils1.c`, `parse_utils2.c` - Parsing utilities
-- `player_movement.c` - Player input and movement
-- `trig_table.c` - Trigonometric lookup tables
-- `free.c` - Memory cleanup
-- `check_args.c` - Argument validation
-- `main.c` - Entry point
-
 ## Test Map Locations
 
 ### Valid Maps (`map/valid_*.cub`)
