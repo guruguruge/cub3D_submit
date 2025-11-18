@@ -39,7 +39,8 @@ void	check_args(int ac, char **av, t_core *cub)
 	int	temp;
 
 	if (ac != 2)
-		error_print("Invalid number of args", ARG_ERROR, cub);
+		error_print("Invalid number of args\nUsage ./cub3D <.cub file>",
+			ARG_ERROR, cub);
 	i = 0;
 	while (av[1][i])
 		i++;

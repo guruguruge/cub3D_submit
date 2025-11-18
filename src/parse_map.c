@@ -43,7 +43,7 @@ void	parse_map(t_core *cub, char *map_line)
 	{
 		if (cub->map.grid)
 			free_args_fail(cub->map.grid, cub->map.size.y);
-		error_print("malloc fail", MALLOC_ERROR, cub);
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	}
 	take_off_newline(cub->map.grid[cub->map.size.y]);
 	cub->map.size.y++;

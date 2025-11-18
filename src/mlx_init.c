@@ -123,9 +123,9 @@ void	init_player_config(t_core *cub)
 void	init_mlx(t_core *cub)
 {
 	cub->mlx.p = mlx_init();
+	get_wall_img(cub);
 	cub->mlx.win = mlx_new_window(cub->mlx.p, WIN_X, WIN_Y, "cub3D");
 	cub->graphic.frame = NULL;
-	get_wall_img(cub);
 	init_trig_table(cub);
 	init_player_config(cub);
 	gettimeofday(&cub->last_update_time, NULL);

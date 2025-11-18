@@ -50,7 +50,7 @@
 # define VERTICAL 0
 # define HORIZONTAL 1
 
-# define FOV 45
+# define FOV 60
 # define H_WALL 1.0
 
 # define PI 3.14159265358979323846
@@ -166,9 +166,8 @@ typedef struct s_player
 
 typedef struct s_trig_table
 {
-	double			sin_table[RADIAN_PRECISION];
-	double			cos_table[RADIAN_PRECISION];
-	double			atan_table[RATIO_PRECISION];
+	double			*sin_table;
+	double			*cos_table;
 }					t_trig_table;
 
 typedef struct s_core
@@ -241,7 +240,6 @@ double				get_radian(double deg);
 void				init_trig_table(t_core *cub);
 double				fast_sin(double radian, t_core cub);
 double				fast_cos(double radian, t_core cub);
-double				fast_atan2(double y, double x, t_core cub);
 void				calculate_vectors(t_core *cub);
 
 void				end_game(t_core *cub);

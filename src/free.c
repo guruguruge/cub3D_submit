@@ -48,6 +48,12 @@ void	free_all(t_core *cub)
 	}
 	if (cub->map.grid)
 		free_args(cub->map.grid);
+	if (cub->raw_input)
+		free_args(cub->raw_input);
+	if (cub->trig_table.cos_table)
+		free(cub->trig_table.cos_table);
+	if (cub->trig_table.sin_table)
+		free(cub->trig_table.sin_table);
 	free(cub);
 }
 

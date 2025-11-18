@@ -50,7 +50,7 @@ char	**create_padded_map_copy(t_core *cub, t_point map_size,
 	tmp_size->y = map_size.y + 2;
 	tmp = malloc(sizeof(char *) * tmp_size->y);
 	if (!tmp)
-		error_print("malloc fail", MALLOC_ERROR, cub);
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	y = 0;
 	while (y < tmp_size->y)
 	{
@@ -58,7 +58,7 @@ char	**create_padded_map_copy(t_core *cub, t_point map_size,
 		if (!tmp[y])
 		{
 			free_args_fail(tmp, y);
-			error_print("malloc fail", MALLOC_ERROR, cub);
+			error_print("Malloc fail", MALLOC_ERROR, cub);
 		}
 		x = 0;
 		while (x < tmp_size->x)

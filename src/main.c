@@ -26,12 +26,9 @@ void	print_args(char **args)
 
 void	error_print(char *message, int type, t_core *cub)
 {
-	(void)cub;
 	write(2, "Error\n", 6);
 	write(2, message, ft_strlen(message));
 	write(2, "\n", 1);
-	if (cub->raw_input)
-		free_args(cub->raw_input);
 	if (cub)
 		free_all(cub);
 	exit(type);
@@ -43,11 +40,10 @@ int	main(int argc, char **argv)
 
 	cub = ft_calloc(1, sizeof(t_core));
 	if (!cub)
-		error_print("malloc fail", MALLOC_ERROR, cub);
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	check_args(argc, argv, cub);
 	parse_cub_file(cub, argv[1]);
 	init_mlx(cub);
 	main_loop(cub);
-	free_all(cub);
 	return (EXIT_SUCCESS);
 }

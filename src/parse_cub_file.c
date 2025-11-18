@@ -33,8 +33,14 @@ t_parse_state	which_component(char *prefix)
 void	init_component_struct(t_core *cub)
 {
 	cub->graphic.surface = ft_calloc(2, sizeof(t_surface));
+	if (!cub->graphic.surface)
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	cub->graphic.wall = ft_calloc(4, sizeof(t_wall));
+	if (!cub->graphic.wall)
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	cub->map.grid = ft_calloc((size_t)cub->raw_col_size, sizeof(char *));
+	if (!cub->map.grid)
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	cub->map.size.x = 0;
 	cub->map.size.y = 0;
 	cub->map.grid[0] = NULL;
@@ -53,7 +59,7 @@ void	get_raw_content(t_core *cub)
 
 	cub->raw_input = malloc((cub->raw_col_size + 1) * sizeof(char *));
 	if (!cub->raw_input)
-		error_print("malloc fail", MALLOC_ERROR, cub);
+		error_print("Malloc fail", MALLOC_ERROR, cub);
 	i = 0;
 	while (i < cub->raw_col_size)
 	{
@@ -61,7 +67,7 @@ void	get_raw_content(t_core *cub)
 		if (!cub->raw_input[i])
 		{
 			free_args_fail(cub->raw_input, i);
-			error_print("malloc fail", MALLOC_ERROR, cub);
+			error_print("Malloc fail", MALLOC_ERROR, cub);
 		}
 		i++;
 	}
@@ -109,5 +115,4 @@ void	parse_cub_file(t_core *cub, char *input)
 	check_texturefile_sanity(cub);
 	check_mapcontent_sanity(cub);
 	check_mapstructure_sanity(cub);
-	free_args(cub->raw_input);
 }
