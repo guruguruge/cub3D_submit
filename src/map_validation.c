@@ -142,6 +142,8 @@ void	check_mapstructure_sanity(t_core *cub)
 				if (!is_surrounded_by_walls(cub->map.grid, map_size.y,
 						map_size.x, y, x))
 					error_print("Map not enclosed", MAP_CONTENT_ERROR, cub);
+				if(!cub->map.grid[y][x + 1])
+					error_print("Map not enclosed", MAP_CONTENT_ERROR, cub);
 			}
 			x++;
 		}

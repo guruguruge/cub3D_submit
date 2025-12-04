@@ -37,8 +37,6 @@ void	check_mapcontent_sanity(t_core *cub)
 	while (y < (size_t)cub->map.size.y)
 	{
 		line = cub->map.grid[y];
-		if (!line)
-			y++;
 		if ((int)ft_strlen(line) > cub->map.size.x)
 			cub->map.size.x = (int)ft_strlen(line);
 		x = 0;

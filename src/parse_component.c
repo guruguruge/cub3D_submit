@@ -103,7 +103,7 @@ void	check_texturefile_sanity(t_core *cub)
 		if (!path || path[0] == '\0')
 			error_print("Texture path missing", TEXTURE_CONTENT_ERROR, cub);
 		len = ft_strlen(path);
-		if (len < 4 || ft_strncmp(path + len - 4, ".xpm", 4) != 0)
+		if (len < 4 || ft_strcmp(path + len - 4, ".xpm", 4) != 0)
 			error_print("Texture must be .xpm", TEXTURE_CONTENT_ERROR, cub);
 		fd = open(path, O_RDONLY);
 		if (fd < 0)
