@@ -40,6 +40,9 @@
 # define KEY_PRESS 2
 # define KEY_PRESS_M 1L << 0
 
+#define CLOSE_WINDOW 17
+#define CLOSE_WINDOW_M 0
+
 # define WIN_X 1920
 # define WIN_Y 1080
 

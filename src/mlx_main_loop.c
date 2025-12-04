@@ -159,6 +159,16 @@ int	key_press(int key_code, void *cub_v)
 	return (0);
 }
 
+int	close_window(void *cub_v)
+{
+	t_core	*cub;
+
+	cub = (t_core *)cub_v;
+	free_all(cub);
+	exit(0);
+	return (0);
+}
+
 void	main_loop(t_core *cub)
 {
 	void	*cub_v;
@@ -167,6 +177,7 @@ void	main_loop(t_core *cub)
 	init_frame(cub);
 	gettimeofday(&cub->last_update_time, NULL);
 	mlx_hook(cub->mlx.win, KEY_PRESS, KEY_PRESS_M, key_press, cub_v);
+	mlx_hook(cub->mlx.win, CLOSE_WINDOW, CLOSE_WINDOW_M, close_window, cub_v);
 	mlx_loop_hook(cub->mlx.p, *render, cub_v);
 	mlx_loop(cub->mlx.p);
 }
