@@ -25,17 +25,19 @@ void	get_wall_img(t_core *cub)
 {
 	char	*path;
 	int		i;
-	int		n;
 
-	n = 64;
 	path = cub->graphic.wall[NO].path;
-	cub->graphic.wall[NO].ptr = mlx_xpm_file_to_image(cub->mlx.p, path, &n, &n);
+	cub->graphic.wall[NO].ptr = mlx_xpm_file_to_image(cub->mlx.p, path,
+			&cub->graphic.wall[NO].width, &cub->graphic.wall[NO].height);
 	path = cub->graphic.wall[SO].path;
-	cub->graphic.wall[SO].ptr = mlx_xpm_file_to_image(cub->mlx.p, path, &n, &n);
+	cub->graphic.wall[SO].ptr = mlx_xpm_file_to_image(cub->mlx.p, path,
+			&cub->graphic.wall[SO].width, &cub->graphic.wall[SO].height);
 	path = cub->graphic.wall[WE].path;
-	cub->graphic.wall[WE].ptr = mlx_xpm_file_to_image(cub->mlx.p, path, &n, &n);
+	cub->graphic.wall[WE].ptr = mlx_xpm_file_to_image(cub->mlx.p, path,
+			&cub->graphic.wall[WE].width, &cub->graphic.wall[WE].height);
 	path = cub->graphic.wall[EA].path;
-	cub->graphic.wall[EA].ptr = mlx_xpm_file_to_image(cub->mlx.p, path, &n, &n);
+	cub->graphic.wall[EA].ptr = mlx_xpm_file_to_image(cub->mlx.p, path,
+			&cub->graphic.wall[EA].width, &cub->graphic.wall[EA].height);
 	if (!cub->graphic.wall[NO].ptr || !cub->graphic.wall[SO].ptr
 		|| !cub->graphic.wall[EA].ptr || !cub->graphic.wall[WE].ptr)
 		error_print("Invalid image path", CONTENT_ERROR, cub);

@@ -132,22 +132,31 @@ void	get_wall_line_idx(t_core *cub)
 	double	wall_x;
 	int		tex_x;
 	int		temp;
+	int		tex_width;
 
 	cub->conf.draw_start = WIN_Y / 2 - (cub->conf.wall_h / 2)
 		+ cub->player1.pitch;
 	cub->conf.draw_end = WIN_Y / 2 + (cub->conf.wall_h / 2)
 		+ cub->player1.pitch;
 	wall_x = get_wall_x(cub, cub->conf.side);
-	tex_x = (int)(wall_x * 64);
+	if (cub->conf.side == HORIZONTAL && cub->conf.ray_dir.y > 0)
+		tex_width = cub->graphic.wall[NO].width;
+	else if (cub->conf.side == HORIZONTAL && cub->conf.ray_dir.y < 0)
+		tex_width = cub->graphic.wall[SO].width;
+	else if (cub->conf.side == VERTICAL && cub->conf.ray_dir.x > 0)
+		tex_width = cub->graphic.wall[WE].width;
+	else
+		tex_width = cub->graphic.wall[EA].width;
+	tex_x = (int)(wall_x * (double)tex_width);
 	if (cub->conf.side == VERTICAL && cub->conf.ray_dir.x < 0)
 	{
 		temp = tex_x;
-		tex_x = 64 - temp - 1;
+		tex_x = tex_width - temp - 1;
 	}
 	else if (cub->conf.side == HORIZONTAL && cub->conf.ray_dir.y < 0)
 	{
 		temp = tex_x;
-		tex_x = 64 - temp - 1;
+		tex_x = tex_width - temp - 1;
 	}
 	cub->conf.tex_x = tex_x;
 }
@@ -176,7 +185,7 @@ void	draw_wall_line(t_core *cub, int idx)
 		target_line_img = cub->graphic.wall[EA];
 	if (cub->conf.wall_h <= 0)
 		cub->conf.wall_h = 1;
-	step = (double)64 / (double)cub->conf.wall_h;
+	step = (double)target_line_img.height / (double)cub->conf.wall_h;
 	tex_pos = (draw_start - (WIN_Y / 2) + cub->conf.wall_h / 2) * step;
 	if (draw_start < 0)
 	{
@@ -191,8 +200,8 @@ void	draw_wall_line(t_core *cub, int idx)
 		tex_y = (int)tex_pos;
 		if (tex_y < 0)
 			tex_y = 0;
-		if (tex_y > 63)
-			tex_y = 63;
+		if (tex_y >= target_line_img.height)
+			tex_y = target_line_img.height - 1;
 		tex_pos += step;
 		target_line_pixel = *(int *)(target_line_img.data_addr + tex_y
 				* target_line_img.size_line + cub->conf.tex_x

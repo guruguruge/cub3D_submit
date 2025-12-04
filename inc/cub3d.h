@@ -104,6 +104,8 @@ typedef struct s_wall
 	int				size_line;
 	int				endian;
 	char			*data_addr;
+	int				width;
+	int				height;
 }					t_wall;
 
 typedef struct s_surface
