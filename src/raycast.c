@@ -139,7 +139,7 @@ void	get_wall_line_idx(t_core *cub)
 		+ cub->player1.pitch;
 	wall_x = get_wall_x(cub, cub->conf.side);
 	tex_x = (int)(wall_x * 64);
-	if (cub->conf.side == VERTICAL && cub->conf.ray_dir.x > 0)
+	if (cub->conf.side == VERTICAL && cub->conf.ray_dir.x < 0)
 	{
 		temp = tex_x;
 		tex_x = 64 - temp - 1;
