@@ -44,7 +44,7 @@ void	check_args(int ac, char **av, t_core *cub)
 	i = 0;
 	while (av[1][i])
 		i++;
-	if (ft_strcmp(&av[1][i - 4], ".cub") != 0)
+	if (ft_strncmp(&av[1][i - 4], ".cub", 4) != 0)
 		error_print("Invalid file type", ARG_ERROR, cub);
 	temp = open(av[1], O_RDONLY);
 	if (temp < 0)
