@@ -51,6 +51,7 @@ SRCS = \
        $(UTILSDIR)/ft_atoi.c \
        $(UTILSDIR)/ft_itoa.c \
        $(UTILSDIR)/ft_printf.c \
+       $(UTILSDIR)/ft_strcmp.c \
        $(UTILSDIR)/ft_strncmp.c \
        $(UTILSDIR)/get_next_line.c \
        $(UTILSDIR)/print2.c \

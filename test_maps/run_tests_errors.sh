@@ -45,6 +45,7 @@ maps=(
   "map/invalid_trailing_space_line.cub"
   "map/invalid_empty_map.cub"
   "map/invalid_player_on_border.cub"
+  "map/invalid_header_mimic.cub"
 )
 
 pass=0

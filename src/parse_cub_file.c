@@ -14,17 +14,17 @@
 
 t_parse_state	which_component(char *prefix)
 {
-	if (ft_strcmp(prefix, "NO", 2) == 0)
+	if (ft_strcmp(prefix, "NO") == 0)
 		return (NO);
-	if (ft_strcmp(prefix, "SO", 2) == 0)
+	if (ft_strcmp(prefix, "SO") == 0)
 		return (SO);
-	if (ft_strcmp(prefix, "WE", 2) == 0)
+	if (ft_strcmp(prefix, "WE") == 0)
 		return (WE);
-	if (ft_strcmp(prefix, "EA", 2) == 0)
+	if (ft_strcmp(prefix, "EA") == 0)
 		return (EA);
-	if (ft_strcmp(prefix, "F", 1) == 0)
+	if (ft_strcmp(prefix, "F") == 0)
 		return (FLR);
-	if (ft_strcmp(prefix, "C", 1) == 0)
+	if (ft_strcmp(prefix, "C") == 0)
 		return (CEL);
 	else
 		return (MAP);
