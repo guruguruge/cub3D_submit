@@ -95,7 +95,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
-	@if [ -d "$(MLX_DIR)" ]; then make -C $(MLX_DIR) clean; fi
+	@if [ -d "$(MLX_DIR)" ]; then $(RM) $(MLX_LIB); fi
 
 re: fclean all
 
