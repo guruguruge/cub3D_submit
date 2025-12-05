@@ -13,6 +13,7 @@
 
 NAME = cub3D
 RM = rm -f
+RMDIR = rm -rf
 INCLUDES = -Iincludes
 LIBS = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
 
@@ -21,6 +22,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCDIR = src
 UTILSDIR = utils
+OBJSDIR = objs
 
 SRCS = \
        $(SRCDIR)/main.c \
@@ -59,14 +61,12 @@ SRCS = \
        $(UTILSDIR)/ft_strdup.c \
        $(UTILSDIR)/get_next_line_utils.c
 
-	   
-OBJS = $(SRCS:.c=.o)
+vpath %.c $(SRCDIR) $(UTILSDIR)
+OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
 MLX_DIR = minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
 
 all: $(MLX_LIB) $(NAME)
-
-bonus: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
@@ -74,17 +74,22 @@ $(NAME): $(OBJS)
 $(MLX_LIB):
 	make -C $(MLX_DIR)
 
-%.o: %.c
+$(OBJSDIR):
+	mkdir -p $(OBJSDIR)
+
+$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
+	$(RMDIR) $(OBJSDIR)
 	make -C $(MLX_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RMDIR) $(OBJSDIR)
 	make -C $(MLX_DIR) clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
