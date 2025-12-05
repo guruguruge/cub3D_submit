@@ -63,16 +63,24 @@ SRCS = \
 
 vpath %.c $(SRCDIR) $(UTILSDIR)
 OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
+
 MLX_DIR = minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
+MLX_URL = https://cdn.intra.42.fr/document/document/40487/minilibx-linux.tgz
+MLX_TGZ = minilibx-linux.tgz
 
 all: $(MLX_LIB) $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-$(MLX_LIB):
+$(MLX_LIB): | $(MLX_DIR)
 	make -C $(MLX_DIR)
+
+$(MLX_DIR):
+	wget $(MLX_URL) -O $(MLX_TGZ)
+	tar -xzf $(MLX_TGZ)
+	rm -rf $(MLX_TGZ)
 
 $(OBJSDIR):
 	mkdir -p $(OBJSDIR)
@@ -83,12 +91,11 @@ $(OBJSDIR)/%.o: %.c | $(OBJSDIR)
 clean:
 	$(RM) $(OBJS)
 	$(RMDIR) $(OBJSDIR)
-	make -C $(MLX_DIR) clean
+	@if [ -d "$(MLX_DIR)" ]; then make -C $(MLX_DIR) clean; fi
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RMDIR) $(OBJSDIR)
-	make -C $(MLX_DIR) clean
+	@if [ -d "$(MLX_DIR)" ]; then make -C $(MLX_DIR) clean; fi
 
 re: fclean all
 
