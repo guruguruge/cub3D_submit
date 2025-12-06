@@ -53,7 +53,7 @@
 # define VERTICAL 0
 # define HORIZONTAL 1
 
-# define FOV 60
+# define FOV 45
 # define H_WALL 1.0
 
 # define PI 3.14159265358979323846

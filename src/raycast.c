@@ -153,7 +153,7 @@ void	get_wall_line_idx(t_core *cub)
 		temp = tex_x;
 		tex_x = tex_width - temp - 1;
 	}
-	else if (cub->conf.side == HORIZONTAL && cub->conf.ray_dir.y < 0)
+	else if (cub->conf.side == HORIZONTAL && cub->conf.ray_dir.y > 0)
 	{
 		temp = tex_x;
 		tex_x = tex_width - temp - 1;
