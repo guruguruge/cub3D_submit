@@ -13,6 +13,7 @@
 
 NAME = cub3D
 RM = rm -f
+RMDIR = rm -rf
 INCLUDES = -Iincludes
 LIBS = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
 
@@ -21,6 +22,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCDIR = src
 UTILSDIR = utils
+OBJSDIR = objs
 
 SRCS = \
        $(SRCDIR)/main.c \
@@ -59,32 +61,42 @@ SRCS = \
        $(UTILSDIR)/ft_strdup.c \
        $(UTILSDIR)/get_next_line_utils.c
 
-	   
-OBJS = $(SRCS:.c=.o)
+vpath %.c $(SRCDIR) $(UTILSDIR)
+OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
+
 MLX_DIR = minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
+MLX_URL = https://cdn.intra.42.fr/document/document/40487/minilibx-linux.tgz
+MLX_TGZ = minilibx-linux.tgz
 
 all: $(MLX_LIB) $(NAME)
-
-bonus: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-$(MLX_LIB):
+$(MLX_LIB): | $(MLX_DIR)
 	make -C $(MLX_DIR)
 
-%.o: %.c
+$(MLX_DIR):
+	wget $(MLX_URL) -O $(MLX_TGZ)
+	tar -xzf $(MLX_TGZ)
+	rm -rf $(MLX_TGZ)
+
+$(OBJSDIR):
+	mkdir -p $(OBJSDIR)
+
+$(OBJSDIR)/%.o: %.c | $(OBJSDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
-	make -C $(MLX_DIR) clean
+	$(RMDIR) $(OBJSDIR)
+	@if [ -d "$(MLX_DIR)" ]; then make -C $(MLX_DIR) clean; fi
 
 fclean: clean
 	$(RM) $(NAME)
-	make -C $(MLX_DIR) clean
+	@if [ -d "$(MLX_DIR)" ]; then $(RM) $(MLX_LIB); fi
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
