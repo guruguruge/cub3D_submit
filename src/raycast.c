@@ -108,7 +108,9 @@ void	conduct_dda(t_core *cub)
 			cub->conf.map.y += cub->conf.step.y;
 			cub->conf.side = HORIZONTAL;
 		}
-		if (cub->map.grid[cub->conf.map.y][cub->conf.map.x] == WALL)
+		if (cub->conf.map.x < 0 || cub->conf.map.x >= cub->map.size.x || cub->conf.map.y < 0 || cub->conf.map.y >= cub->map.size.y)
+			hit = true; 
+		else if (cub->map.grid[cub->conf.map.y][cub->conf.map.x] == WALL)
 			hit = true;
 	}
 }
@@ -212,6 +214,44 @@ void	draw_wall_line(t_core *cub, int idx)
 	}
 }
 
+void	print_raycast_debug(t_core *cub, int screen_x)
+{
+	t_raycast	*ray;
+
+	// cub->confだと長いので、短い変数名にエイリアスします
+	ray = &cub->conf;
+	printf("\n\033[1;36m--- DEBUG RAY at screen_x: %d ---\033[0m\n", screen_x);
+	printf("----------------------------------------\n");
+	printf("\033[1;33m## 1. Player Config\033[0m\n");
+	printf("player deg %f\n", (cub->player1.deg_radian / TO_RADIAN));
+	printf("player pos int (x,y) (%d %d)\n", cub->player1.pos.x,
+		cub->player1.pos.y);
+	printf("player pos double (x,y) (%f %f)\n", cub->player1.pos_d.x,
+		cub->player1.pos_d.y);
+	// 1. レイの初期設定値
+	printf("\n\033[1;33m## 2. Initial Ray Setup\033[0m\n");
+	printf("camera_x      : %.4f\n", ray->camera_x);
+	printf("ray_dir (x,y) : (%.4f, %.4f)\n", ray->ray_dir.x, ray->ray_dir.y);
+	printf("map (start)   : (%d, %d)\n", ray->map.x, ray->map.y);
+	// 2. DDAアルゴリズムの計算値
+	printf("\n\033[1;33m## 3. DDA Algorithm Variables\033[0m\n");
+	printf("step (x,y)      : (%d, %d)\n", ray->step.x, ray->step.y);
+	printf("delta_dist(x,y) : (%.4f, %.4f)\n", ray->delta_dist.x,
+		ray->delta_dist.y);
+	printf("side_dist (x,y) : (%.4f, %.4f)\n", ray->side_dist.x,
+		ray->side_dist.y);
+	// 3. DDA実行後の結果 (まだ計算していない場合は0や不定値が表示されます)
+	printf("\n\033[1;33m## 4. DDA Result\033[0m\n");
+	if (ray->side == 0)
+		printf("side (hit)      : %d (X-side: East/West)\n", ray->side);
+	else
+		printf("side (hit)      : %d (Y-side: North/South)\n", ray->side);
+	printf("corr_distance   : %.4f\n", ray->corr_distance);
+	printf("wall_h          : %.4f\n", ray->wall_h);
+	printf("----------------------------------------\n");
+}
+
+
 void	raycast(t_core *cub)
 {
 	int	idx;
@@ -224,6 +264,8 @@ void	raycast(t_core *cub)
 		calc_wall_line(cub, idx);
 		get_wall_line_idx(cub);
 		draw_wall_line(cub, idx);
+		// if(idx == WIN_X / 2)
+		// 	print_raycast_debug(cub, idx);
 		idx++;
 	}
 }
